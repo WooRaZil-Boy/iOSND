@@ -5,8 +5,3 @@ PitchPerfect
 
 
 make you sound like a chipmunk or Darth Vader!
-
-##Requirements
-
-Xcode 8 Above
-Swift 3.0
