@@ -229,11 +229,10 @@ extension MemeController {
     
     func getKeyboardHeight(_ notification: Notification) -> CGFloat {
         
-        
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         
-        print("INFO :: \(userInfo)")
+        print("userInfo :: \(userInfo)")
         
         return keyboardSize.cgRectValue.height
     }
