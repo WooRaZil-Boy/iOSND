@@ -108,7 +108,9 @@ extension MemeController {
         activityViewController.popoverPresentationController?.sourceView = barButtonItemView //For iPad
         activityViewController.popoverPresentationController?.sourceRect = barButtonItemView!.bounds //For iPad
         activityViewController.completionWithItemsHandler = { activity, complete, items, error in
-            self.save(memedImage: memedImage)
+            if complete {
+                self.save(memedImage: memedImage)
+            }
         }
         
         present(activityViewController, animated: true)
