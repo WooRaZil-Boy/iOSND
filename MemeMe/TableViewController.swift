@@ -18,13 +18,13 @@ class TableViewController: TabBarViewController {
         super.viewDidLoad()
         
         performFetch()
-        navigationItem.leftBarButtonItem = editButtonItem
+        navigationItem.leftBarButtonItem = editButtonItem //에디트 추가
     }
 }
 
 //MARK - Methods
 extension TableViewController {
-    override func setEditing(_ editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) { //에디트 버튼이랑 연동 됨
         super.setEditing(editing, animated: animated)
         tableView.setEditing(!tableView.isEditing, animated: true)
     }
@@ -74,13 +74,6 @@ extension TableViewController {
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .automatic)
-        default:
-            break
-        }
-        
         coreDataStack.saveContext()
     }
 }

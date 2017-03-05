@@ -95,7 +95,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="zSQ-Wf-vb4" id="p4C-WF-bER"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="EditMode" id="Mnz-EH-ucr"/>
+                        <segue destination="kDr-bX-43E" kind="show" identifier="DetailMode" id="bjn-r7-Uef"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HWs-Bd-b06" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -122,7 +122,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mW9-8n-umo" id="C0e-69-pJZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="89.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1TB-T4-ZKG">
@@ -186,17 +186,17 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="KWF-Nb-i6M" id="zde-bX-Tj6"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="EditMode" id="c6s-AG-EEZ"/>
+                        <segue destination="kDr-bX-43E" kind="show" identifier="DetailMode" id="zN9-xs-QiJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H8g-wq-aV5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="247.5" y="-540.84507042253517"/>
         </scene>
-        <!--Meme View Controller-->
+        <!--Meme Editor View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MemeViewController" id="BYZ-38-t0r" customClass="MemeViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MemeEditorViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -312,6 +312,39 @@
             </objects>
             <point key="canvasLocation" x="1073" y="-164"/>
         </scene>
+        <!--Meme Detail View Controller-->
+        <scene sceneID="zPn-uH-v0H">
+            <objects>
+                <viewController id="kDr-bX-43E" customClass="MemeDetailViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Zd-Cr-IyJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="p5Y-TC-JHy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hov-AX-eZt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lfU-iw-FRv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lfU-iw-FRv" firstAttribute="height" secondItem="Hov-AX-eZt" secondAttribute="height" id="4b7-o0-OZN"/>
+                            <constraint firstItem="lfU-iw-FRv" firstAttribute="width" secondItem="Hov-AX-eZt" secondAttribute="width" id="CAe-nw-STT"/>
+                            <constraint firstItem="lfU-iw-FRv" firstAttribute="leading" secondItem="Hov-AX-eZt" secondAttribute="leading" id="bW5-P0-vIV"/>
+                            <constraint firstItem="lfU-iw-FRv" firstAttribute="top" secondItem="Hov-AX-eZt" secondAttribute="top" id="mKG-nk-vyB"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="QaQ-Zk-joh"/>
+                    <connections>
+                        <outlet property="memedImageView" destination="lfU-iw-FRv" id="XEa-BQ-ud5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Hu-Jc-Pdu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1806" y="-164"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="9bD-Qx-KYV">
             <objects>
@@ -360,6 +393,7 @@
         <image name="Table" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="c6s-AG-EEZ"/>
+        <segue reference="bjn-r7-Uef"/>
+        <segue reference="MBC-SL-MCO"/>
     </inferredMetricsTieBreakers>
 </document>

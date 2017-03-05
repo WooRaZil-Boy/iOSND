@@ -17,7 +17,9 @@ class CollectionViewController: TabBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        coreDataStack = CoreDataStack(modelName: "Meme") //TODO: DI로 못 하나?
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        coreDataStack = delegate.coreDataStack
+        
         performFetch()
     }
 }

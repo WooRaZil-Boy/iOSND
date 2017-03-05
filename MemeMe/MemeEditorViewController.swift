@@ -1,5 +1,5 @@
 //
-//  MemeViewController.swift
+//  MemeEditorViewController.swift
 //  MemeMe
 //
 //  Created by 근성가이 on 2017. 3. 1..
@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import CoreData
 
-class MemeViewController: UIViewController {
+class MemeEditorViewController: UIViewController {
     //MARK: - Properties
     @IBOutlet weak var imageView: UIImageView! 
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -35,10 +35,8 @@ class MemeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        topTextField.defaultTextAttributes = setTextFieldAttributes()
-        bottomTextField.defaultTextAttributes = setTextFieldAttributes()
-        topTextField.textAlignment = .center
-        bottomTextField.textAlignment = .center
+        configure(textField: topTextField, text: defaultText(topTextField), defaultAttributes: setTextFieldAttributes())
+        configure(textField: bottomTextField, text: defaultText(bottomTextField), defaultAttributes: setTextFieldAttributes())
         
         if let meme = meme {
             let image = UIImage(data: meme.originalImage as! Data)
@@ -66,19 +64,10 @@ class MemeViewController: UIViewController {
     override var prefersStatusBarHidden : Bool {
         return true
     }
-    
-    func setTextFieldAttributes() -> [String: Any] {
-        let memeTextAttributes: [String: Any] = [
-            NSStrokeColorAttributeName: UIColor.black,
-            NSForegroundColorAttributeName: UIColor.white,
-            NSStrokeWidthAttributeName: -1.0]
-
-        return memeTextAttributes
-    }
 }
 
 //MARK: - Actions
-extension MemeViewController {
+extension MemeEditorViewController {
     @IBAction func pickAnImage(_ sender: UIBarButtonItem) {
         
         let sourceType = sender.tag == 0 ? UIImagePickerControllerSourceType.camera : UIImagePickerControllerSourceType.photoLibrary
@@ -144,7 +133,7 @@ extension MemeViewController {
 }
 
 //MARK: - HelperMethods 
-extension MemeViewController {
+extension MemeEditorViewController {
     func generateMemedImage() -> UIImage {
         
         updateBars()
@@ -159,14 +148,14 @@ extension MemeViewController {
         return memedImage
     }
     
-    func updateUI(_ flag: Bool = true) {
-        imagePlaceholerLabel.isHidden = flag
-        shareButton.isEnabled = flag
+    func updateUI(_ hidden: Bool = true) {
+        imagePlaceholerLabel.isHidden = hidden
+        shareButton.isEnabled = hidden
     }
     
-    func updateBars(_ flag: Bool = true) {
-        navigationBar.isHidden = flag
-        toolBar.isHidden = flag
+    func updateBars(_ hidden: Bool = true) {
+        navigationBar.isHidden = hidden
+        toolBar.isHidden = hidden
     }
     
     func save(memedImage: UIImage) {
@@ -187,13 +176,28 @@ extension MemeViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    func setTextFieldAttributes() -> [String: Any] {
+        let memeTextAttributes: [String: Any] = [
+            NSStrokeColorAttributeName: UIColor.black,
+            NSForegroundColorAttributeName: UIColor.white,
+            NSStrokeWidthAttributeName: -1.0]
+        
+        return memeTextAttributes
+    }
+    
     func defaultText(_ textField: UITextField) -> String {
         return textField == topTextField ? "TOP" : "BOTTOM"
+    }
+    
+    func configure(textField: UITextField, text: String, defaultAttributes: [String:Any]){
+        textField.text = text
+        textField.defaultTextAttributes = defaultAttributes
+        textField.textAlignment = .center
     }
 }
 
 //MARK: - UIImagePickerControllerDelegate
-extension MemeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MemeEditorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
@@ -208,7 +212,7 @@ extension MemeViewController: UIImagePickerControllerDelegate, UINavigationContr
 }
 
 //MARK: - UITextFieldDelegate
-extension MemeViewController: UITextFieldDelegate {
+extension MemeEditorViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if textField.text == defaultText(textField) {
@@ -224,7 +228,7 @@ extension MemeViewController: UITextFieldDelegate {
 }
 
 //MARK: - NotificationCenter
-extension MemeViewController {
+extension MemeEditorViewController {
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)

@@ -34,19 +34,20 @@ extension TabBarViewController {
     
     func editAction(indexPath: IndexPath) {
         let meme = fetchedResultsController.object(at: indexPath)
-        performSegue(withIdentifier: "EditMode", sender: meme)
+        performSegue(withIdentifier: "DetailMode", sender: meme)
     }
 }
 
 //MARK: - Navigations
 extension TabBarViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let memeViewController = segue.destination as! MemeViewController
-        memeViewController.coreDataStack = coreDataStack
-        memeViewController.parentTabBarViewController = self
-        
-        if segue.identifier == "EditMode", let meme = sender as? Meme {
-            memeViewController.meme = meme
+        if segue.identifier == "DetailMode", let meme = sender as? Meme {
+            let memeDetailViewController = segue.destination as! MemeDetailViewController
+            memeDetailViewController.meme = meme
+        } else {
+            let memeEditorViewController = segue.destination as! MemeEditorViewController
+            memeEditorViewController.coreDataStack = coreDataStack
+            memeEditorViewController.parentTabBarViewController = self
         }
     }
 }
