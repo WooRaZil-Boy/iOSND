@@ -1,5 +1,5 @@
 //
-//  MemeController.swift
+//  MemeViewController.swift
 //  MemeMe
 //
 //  Created by 근성가이 on 2017. 3. 1..
@@ -8,8 +8,9 @@
 
 import UIKit
 import Photos
+import CoreData
 
-class MemeController: UIViewController {
+class MemeViewController: UIViewController {
     //MARK: - Properties
     @IBOutlet weak var imageView: UIImageView! 
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -21,11 +22,14 @@ class MemeController: UIViewController {
     @IBOutlet weak var navigationBar: UIToolbar!
     @IBOutlet weak var toolBar: UIToolbar!
     
+    weak var parentTabBarViewController: TabBarViewController!
     var selectedImage: UIImage? {
         didSet {
             updateUI(selectedImage != nil)
         }
     }
+    var coreDataStack: CoreDataStack!
+    var meme: Meme?
     
     //MARK: - ViewLifeCycle
     override func viewDidLoad() {
@@ -35,6 +39,15 @@ class MemeController: UIViewController {
         bottomTextField.defaultTextAttributes = setTextFieldAttributes()
         topTextField.textAlignment = .center
         bottomTextField.textAlignment = .center
+        
+        if let meme = meme {
+            let image = UIImage(data: meme.originalImage as! Data)
+            
+            imageView.image = image
+            selectedImage = image
+            topTextField.text = meme.topText
+            bottomTextField.text = meme.bottomText
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +78,7 @@ class MemeController: UIViewController {
 }
 
 //MARK: - Actions
-extension MemeController {
+extension MemeViewController {
     @IBAction func pickAnImage(_ sender: UIBarButtonItem) {
         
         let sourceType = sender.tag == 0 ? UIImagePickerControllerSourceType.camera : UIImagePickerControllerSourceType.photoLibrary
@@ -119,10 +132,7 @@ extension MemeController {
     @IBAction func cancelAction(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Cancel", message: "Remove all progress on your current project", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
-            self.topTextField.text = ""
-            self.bottomTextField.text = ""
-            self.imageView.image = nil
-            self.selectedImage = nil
+            self.dismiss(animated: true, completion: nil)
             
         })
         let cancelAction = UIAlertAction(title: "Keep editing", style: .cancel)
@@ -134,7 +144,7 @@ extension MemeController {
 }
 
 //MARK: - HelperMethods 
-extension MemeController {
+extension MemeViewController {
     func generateMemedImage() -> UIImage {
         
         updateBars()
@@ -153,7 +163,6 @@ extension MemeController {
     func updateUI(_ flag: Bool = true) {
         imagePlaceholerLabel.isHidden = flag
         shareButton.isEnabled = flag
-        cancelButton.isEnabled = flag
     }
     
     func updateBars(_ flag: Bool = true) {
@@ -162,8 +171,21 @@ extension MemeController {
     }
     
     func save(memedImage: UIImage) {
-        let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: selectedImage!, memedImage: memedImage)
-        print(meme)
+        if meme == nil {
+            meme = Meme(context: coreDataStack.managedContext)
+        }
+        
+        meme!.topText = topTextField.text
+        meme!.bottomText = bottomTextField.text
+        let originalImageRepresentation = UIImagePNGRepresentation(selectedImage!)!
+        meme!.originalImage = NSData(data: originalImageRepresentation)
+        let memedImageRepresentation = UIImagePNGRepresentation(memedImage)!
+        meme!.memedImage = NSData(data: memedImageRepresentation)
+        meme!.regsterDate = NSDate()
+        
+        coreDataStack.saveContext()
+        
+        dismiss(animated: true, completion: nil)
     }
     
     func defaultText(_ textField: UITextField) -> String {
@@ -172,7 +194,7 @@ extension MemeController {
 }
 
 //MARK: - UIImagePickerControllerDelegate
-extension MemeController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MemeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
@@ -187,7 +209,7 @@ extension MemeController:UIImagePickerControllerDelegate, UINavigationController
 }
 
 //MARK: - UITextFieldDelegate
-extension MemeController: UITextFieldDelegate {
+extension MemeViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if textField.text == defaultText(textField) {
@@ -203,7 +225,7 @@ extension MemeController: UITextFieldDelegate {
 }
 
 //MARK: - NotificationCenter
-extension MemeController {
+extension MemeViewController {
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
@@ -232,9 +254,6 @@ extension MemeController {
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         
-        print("userInfo :: \(userInfo)")
-        
         return keyboardSize.cgRectValue.height
     }
 }
-

@@ -7,15 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    lazy var coreDataStack = CoreDataStack(modelName: "Meme")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        guard let tabBarController = window?.rootViewController as? UITabBarController,
+            let navigationController = tabBarController.viewControllers?.first as? UINavigationController,
+            let tabBarViewController = navigationController.topViewController as? TabBarViewController else {
+                
+            return true
+        }
+        
+        tabBarViewController.coreDataStack = coreDataStack
+
         return true
     }
 
