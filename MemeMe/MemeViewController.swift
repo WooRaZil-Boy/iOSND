@@ -149,7 +149,6 @@ extension MemeViewController {
         
         updateBars()
         
-        // Render view to an image
         UIGraphicsBeginImageContext(view.frame.size)
         view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -204,7 +203,7 @@ extension MemeViewController: UIImagePickerControllerDelegate, UINavigationContr
         selectedImage = image
         imageView.image = selectedImage
         
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
 
