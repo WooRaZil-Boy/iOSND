@@ -29,7 +29,6 @@ class MemeEditorViewController: UIViewController {
         }
     }
     var coreDataStack: CoreDataStack!
-    var meme: Meme?
     
     //MARK: - ViewLifeCycle
     override func viewDidLoad() {
@@ -37,15 +36,6 @@ class MemeEditorViewController: UIViewController {
         
         configure(textField: topTextField, text: defaultText(topTextField), defaultAttributes: setTextFieldAttributes())
         configure(textField: bottomTextField, text: defaultText(bottomTextField), defaultAttributes: setTextFieldAttributes())
-        
-        if let meme = meme {
-            let image = UIImage(data: meme.originalImage as! Data)
-            
-            imageView.image = image
-            selectedImage = image
-            topTextField.text = meme.topText
-            bottomTextField.text = meme.bottomText
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -159,17 +149,15 @@ extension MemeEditorViewController {
     }
     
     func save(memedImage: UIImage) {
-        if meme == nil {
-            meme = Meme(context: coreDataStack.managedContext)
-        }
+        let meme = Meme(context: coreDataStack.managedContext)
         
-        meme!.topText = topTextField.text
-        meme!.bottomText = bottomTextField.text
+        meme.topText = topTextField.text
+        meme.bottomText = bottomTextField.text
         let originalImageRepresentation = UIImagePNGRepresentation(selectedImage!)!
-        meme!.originalImage = NSData(data: originalImageRepresentation)
+        meme.originalImage = NSData(data: originalImageRepresentation)
         let memedImageRepresentation = UIImagePNGRepresentation(memedImage)!
-        meme!.memedImage = NSData(data: memedImageRepresentation)
-        meme!.regsterDate = NSDate()
+        meme.memedImage = NSData(data: memedImageRepresentation)
+        meme.regsterDate = NSDate()
         
         coreDataStack.saveContext()
         
