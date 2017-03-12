@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyNavigationBar" customModule="OnTheMap" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <navigationBar contentMode="scaleToFill" id="BjW-dK-Sj0">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <items>
+                <navigationItem title="On The Map" id="RcB-EC-tRE">
+                    <barButtonItem key="leftBarButtonItem" title="Logout" id="hBz-9R-ukE">
+                        <connections>
+                            <action selector="logOutAction:" destination="-1" id="Jds-Wo-Ozc"/>
+                        </connections>
+                    </barButtonItem>
+                    <rightBarButtonItems>
+                        <barButtonItem systemItem="refresh" id="GON-WE-wUg">
+                            <connections>
+                                <action selector="refreshAction:" destination="-1" id="64Q-V4-Xra"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem image="pin" id="M8Z-NR-9H4">
+                            <connections>
+                                <action selector="pinAction:" destination="-1" id="U7O-o5-Wev"/>
+                            </connections>
+                        </barButtonItem>
+                    </rightBarButtonItems>
+                </navigationItem>
+            </items>
+            <point key="canvasLocation" x="61" y="67"/>
+        </navigationBar>
+    </objects>
+    <resources>
+        <image name="pin" width="32" height="32"/>
+    </resources>
+</document>
