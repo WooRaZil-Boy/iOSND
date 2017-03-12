@@ -14,7 +14,7 @@
 		EF26C8321E72342F00C26BA4 /* MyNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C8311E72342F00C26BA4 /* MyNavigationBar.swift */; };
 		EF26C8341E7234AB00C26BA4 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C8331E7234AB00C26BA4 /* Utilities.swift */; };
 		EF26C8361E723A5900C26BA4 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C8351E723A5900C26BA4 /* ListViewController.swift */; };
-		EF26C8381E723FE500C26BA4 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C8371E723FE500C26BA4 /* Location.swift */; };
+		EF26C8381E723FE500C26BA4 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C8371E723FE500C26BA4 /* Student.swift */; };
 		EF26C83A1E72443400C26BA4 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C8391E72443400C26BA4 /* PostingViewController.swift */; };
 		EF26C83E1E73DC9500C26BA4 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26C83D1E73DC9500C26BA4 /* LocationCell.swift */; };
 		EFF27DAC1E70CBAF00559D48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF27DAB1E70CBAF00559D48 /* AppDelegate.swift */; };
@@ -32,7 +32,7 @@
 		EF26C8311E72342F00C26BA4 /* MyNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNavigationBar.swift; sourceTree = "<group>"; };
 		EF26C8331E7234AB00C26BA4 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		EF26C8351E723A5900C26BA4 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		EF26C8371E723FE500C26BA4 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		EF26C8371E723FE500C26BA4 /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		EF26C8391E72443400C26BA4 /* PostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
 		EF26C83D1E73DC9500C26BA4 /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		EFF27DA81E70CBAF00559D48 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +58,7 @@
 		EF1D66531E74EE8300C11C0E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				EF26C8371E723FE500C26BA4 /* Location.swift */,
+				EF26C8371E723FE500C26BA4 /* Student.swift */,
 				EF26C8291E7224DA00C26BA4 /* NetworkClient.swift */,
 				EF26C8271E72249E00C26BA4 /* NetworkConstants.swift */,
 			);
@@ -195,7 +195,7 @@
 				EFF27DAE1E70CBAF00559D48 /* LogInViewController.swift in Sources */,
 				EF26C8341E7234AB00C26BA4 /* Utilities.swift in Sources */,
 				EFF27DAC1E70CBAF00559D48 /* AppDelegate.swift in Sources */,
-				EF26C8381E723FE500C26BA4 /* Location.swift in Sources */,
+				EF26C8381E723FE500C26BA4 /* Student.swift in Sources */,
 				EF26C82C1E72318D00C26BA4 /* MapViewController.swift in Sources */,
 				EF26C83E1E73DC9500C26BA4 /* LocationCell.swift in Sources */,
 				EF26C8281E72249E00C26BA4 /* NetworkConstants.swift in Sources */,

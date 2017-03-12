@@ -10,9 +10,6 @@ import UIKit
 
 class NetworkClient {
     //MARK: - Properties
-    var userID: String!
-    var objectID: String?
-    var locations: [Location]!
     var session = URLSession.shared
 }
 
@@ -103,7 +100,7 @@ extension NetworkClient {
                 return
             }
             
-            self.userID = userID
+            Student.sharedInstance().userID = userID
             
             completionHandler(true, nil)
         }
@@ -123,27 +120,27 @@ extension NetworkClient {
 
 //MARK: - Parse
 extension NetworkClient {
-    func getStudentLocations(_ completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ locations: [Location]?) -> Void) {
-        let _ = taskForGETMethod(method: Methods.ParseLocation) { results, error in
+    func getStudentLocations(_ completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        let query = ["limit": 100, "order" : "-updatedAt"] as [String : Any]
+        let _ = taskForGETMethod(method: Methods.ParseLocation, query: query as [String : AnyObject]?) { results, error in
             guard error == nil else {
-                completionHandler(false, error?.localizedDescription, nil)
+                completionHandler(false, error?.localizedDescription)
                 return
             }
             
             guard let resultsArray = results?["results"] as? [[String: AnyObject]] else {
-                completionHandler(false, "Can't convert getStudentLocations_results", nil)
+                completionHandler(false, "Can't convert getStudentLocations_results")
                 return
             }
+
+            Student.sharedInstance().locations = Student.locationsFromResults(resultsArray)
             
-            let locations = Location.locationsFromResults(resultsArray)
-            self.locations = locations
-            
-            completionHandler(true, nil, locations)
+            completionHandler(true, nil)
         }
     }
     
     func getStudentLocation(_ completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ objectID: String?) -> Void) {
-        let query = ["where": "{\"uniqueKey\":\"\(userID!)\"}" as AnyObject]
+        let query = ["where": "{\"uniqueKey\":\"\(Student.sharedInstance().userID!)\"}" as AnyObject]
         
         let _ = taskForGETMethod(method: Methods.ParseLocation, query: query) { results, error in
             guard error == nil else {
@@ -156,6 +153,12 @@ extension NetworkClient {
                 return
             }
             
+            if resultsArray.isEmpty {
+                completionHandler(true, nil, nil)
+            
+                return
+            }
+            
             let locationDictionary = resultsArray[resultsArray.endIndex - 1]
 
             guard let objectID = locationDictionary["objectId"] as? String else {
@@ -163,7 +166,7 @@ extension NetworkClient {
                 return
             }
             
-            self.objectID = objectID
+            Student.sharedInstance().objectID = objectID
             
             completionHandler(true, nil, objectID)
         }
@@ -173,16 +176,16 @@ extension NetworkClient {
         var httpMethod: String
         var method: String
         
-        if objectID == nil {
+        if Student.sharedInstance().objectID == nil {
             httpMethod = "POST"
             method = Methods.ParseLocation
         } else {
             httpMethod = "PUT"
-            method = Methods.ParseLocation + "/" + objectID!
+            method = Methods.ParseLocation + "/" + Student.sharedInstance().objectID!
         }
         
         var mutableMethod: String = Methods.UdaCityUsers
-        mutableMethod = substituteKeyInMethod(mutableMethod, key: "id", value: String(userID!))!
+        mutableMethod = substituteKeyInMethod(mutableMethod, key: "id", value: String(Student.sharedInstance().userID!))!
         
         let _ = taskForGETMethod(isParse: false, method: mutableMethod) { results, error in
             guard error == nil else {
@@ -200,7 +203,7 @@ extension NetworkClient {
                 return
             }
             
-            let _ = self.taskForPOST_PUTMethod(httpMethod: httpMethod, method: method, jsonBody: "{\"uniqueKey\": \"\(self.userID!)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}") { results, error in
+            let _ = self.taskForPOST_PUTMethod(httpMethod: httpMethod, method: method, jsonBody: "{\"uniqueKey\": \"\(Student.sharedInstance().userID!)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}") { results, error in
                 guard error == nil else {
                     completionHandler(false, error?.localizedDescription)
                     return
@@ -308,6 +311,7 @@ extension NetworkClient {
         }
         
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+            
             self.sendError("Your request returned a status code other than 2xx!", handler: handler)
             return true
         }

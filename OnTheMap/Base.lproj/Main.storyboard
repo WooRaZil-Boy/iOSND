@@ -82,12 +82,18 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="T4P-gL-dNu"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dX6-s4-DmH">
                                         <rect key="frame" x="0.0" y="35" width="288" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="aaW-Eo-m9m"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwL-v1-yvn">
                                         <rect key="frame" x="0.0" y="70" width="288" height="30"/>
@@ -101,10 +107,16 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="woT-sb-RN4">
+                                <rect key="frame" x="142" y="265.5" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.018823657184839249" green="0.59767431020736694" blue="0.76463097333908081" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="95V-8X-Gba" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3fk-g4-r7L"/>
+                            <constraint firstItem="woT-sb-RN4" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="BHz-xE-ABR"/>
+                            <constraint firstItem="woT-sb-RN4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="D3Q-23-BtP"/>
                             <constraint firstItem="95V-8X-Gba" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Dcj-kb-ZSO"/>
                             <constraint firstAttribute="trailing" secondItem="Kvx-xo-5pp" secondAttribute="trailing" constant="16" id="OJK-UF-G3a"/>
                             <constraint firstItem="Kvx-xo-5pp" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="STD-U4-LMz"/>
@@ -119,6 +131,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="ifH-ls-lqQ" id="2sc-0o-QIQ"/>
                         <outlet property="passwordTextField" destination="dX6-s4-DmH" id="dD1-j9-fcH"/>
+                        <outlet property="spinner" destination="woT-sb-RN4" id="QJn-AS-QQN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -178,6 +191,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="kTn-0s-V3h" id="FGN-k1-27Y"/>
+                                </connections>
                             </textField>
                             <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="LNz-fQ-LSx">
                                 <rect key="frame" x="0.0" y="248" width="320" height="320"/>
@@ -206,6 +222,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="kTn-0s-V3h" id="DZy-Rw-Jbx"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Byl-FW-eXa">
                                 <rect key="frame" x="256" y="20" width="48" height="30"/>
@@ -237,12 +256,18 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HX3-YP-reH">
+                                <rect key="frame" x="142" y="265.5" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OJS-8n-pzy" firstAttribute="trailing" secondItem="I8I-P6-6zW" secondAttribute="trailingMargin" id="0Ah-UK-UC0"/>
                             <constraint firstAttribute="trailing" secondItem="Byl-FW-eXa" secondAttribute="trailing" constant="16" id="0uL-X9-rfB"/>
                             <constraint firstItem="Yu6-8W-s4o" firstAttribute="top" secondItem="ZYj-y6-2ld" secondAttribute="bottom" constant="20" id="472-wM-eMY"/>
+                            <constraint firstItem="HX3-YP-reH" firstAttribute="centerY" secondItem="I8I-P6-6zW" secondAttribute="centerY" id="4ZN-En-RNk"/>
+                            <constraint firstItem="HX3-YP-reH" firstAttribute="centerX" secondItem="I8I-P6-6zW" secondAttribute="centerX" id="G9u-Xa-2sO"/>
                             <constraint firstItem="LNz-fQ-LSx" firstAttribute="height" secondItem="I8I-P6-6zW" secondAttribute="width" id="GYa-P7-tWl"/>
                             <constraint firstItem="Yu6-8W-s4o" firstAttribute="top" secondItem="3JX-aF-ITW" secondAttribute="bottom" constant="20" id="KcW-yg-sNL"/>
                             <constraint firstAttribute="trailing" secondItem="ivm-DC-KUN" secondAttribute="trailing" constant="16" id="OcB-gp-qzw"/>
@@ -266,6 +291,7 @@
                         <outlet property="mapView" destination="LNz-fQ-LSx" id="LnU-0y-fIq"/>
                         <outlet property="mediaURLTextField" destination="ivm-DC-KUN" id="YKk-sm-eQA"/>
                         <outlet property="searchTextField" destination="OJS-8n-pzy" id="hX1-iL-oWQ"/>
+                        <outlet property="spinner" destination="HX3-YP-reH" id="Qut-uy-jpS"/>
                         <outlet property="stackView" destination="fMb-dR-ZdT" id="hBc-GE-cJi"/>
                         <outlet property="submitButton" destination="ZYj-y6-2ld" id="igw-1v-WnG"/>
                     </connections>

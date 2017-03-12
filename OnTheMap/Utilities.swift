@@ -37,11 +37,27 @@ extension OnTheMapViewController {
         }
     }
     
-    func refreshAction(_ locations: [Location]) { }
+    func refreshAction() { }
 }
 
 func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
     DispatchQueue.main.async {
         updates()
+    }
+}
+
+protocol Spinner_Protocol {
+    weak var spinner: UIActivityIndicatorView! { get set }
+}
+
+extension Spinner_Protocol {
+    func spinnerAimation(_ isTrue: Bool) {
+        if isTrue {
+            spinner.isHidden = false
+            spinner.startAnimating()
+        } else {
+            spinner.isHidden = true
+            spinner.stopAnimating()
+        }
     }
 }

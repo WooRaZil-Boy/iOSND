@@ -11,29 +11,44 @@ import MapKit
 
 class MapViewController: OnTheMapViewController {
     //MARK: - Properties
-    var selectedLocation: String!
+    var selectedMediaURL: String!
     @IBOutlet weak var mapView: MKMapView!
     
     //MARKL - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NetworkClient.sharedInstance().getStudentLocations() { success, errorString, locations in
+        refreshAction()
+    }
+}
+
+//MARK: - OnTheMapViewController
+extension MapViewController {
+    override func refreshAction() {
+        NetworkClient.sharedInstance().getStudentLocations() { success, errorString in
             guard success == true else {
                 print("viewDidLoad_\(errorString)")
                 return
             }
             
-            self.refreshAction(locations!)
-        }
-    }
-}
-
-//MARL: - OnTheMapViewController
-extension MapViewController {
-    override func refreshAction(_ locations: [Location]) {
-        performUIUpdatesOnMain {
-            self.mapView.addAnnotations(locations)
+            var annotations = [MKPointAnnotation]()
+            let locations = Student.sharedInstance().locations
+            for location in locations {
+                let latitude = CLLocationDegrees(location.latitude)
+                let longtitude = CLLocationDegrees(location.longitude)
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longtitude)
+                annotation.title = location.fullName
+                annotation.subtitle = location.mediaURL
+                
+                annotations.append(annotation)
+            }
+            
+            performUIUpdatesOnMain {
+                self.mapView.removeAnnotations(self.mapView.annotations)
+                self.mapView.addAnnotations(annotations)
+            }
         }
     }
 }
@@ -41,17 +56,13 @@ extension MapViewController {
 //MARK: - Actions
 extension MapViewController {
     func showMedia() {
-        openURL(selectedLocation)
+        openURL(selectedMediaURL)
     }
 }
 
 //MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is Location else {
-            return nil
-        }
-        
         let identifier = "Location"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         
@@ -75,10 +86,7 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let location = view.annotation as? Location else {
-            return
-        }
-        
-        selectedLocation = location.mediaURL
+        let url = view.annotation?.subtitle
+        selectedMediaURL = url!
     }
 }

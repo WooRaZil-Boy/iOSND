@@ -57,15 +57,23 @@ extension MyNavigationBar {
                 
                 self.parentNavigationController.present(alertController, animated: true)
             } else {
-                self.presentPostingViewController()
+                performUIUpdatesOnMain {
+                    self.presentPostingViewController()
+                }
             }
         }
     }
     
     @IBAction func refreshAction(_ sender: UIBarButtonItem) {
-        NetworkClient.sharedInstance().getStudentLocations() { success, errorString, locations in
+        NetworkClient.sharedInstance().getStudentLocations() { success, errorString in
             guard success == true else {
                 print("refreshAction_\(errorString)")
+                
+                let alertController = UIAlertController(title: "Can't Refresh", message: errorString, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default)
+                alertController.addAction(okAction)
+                self.parentNavigationController.present(alertController, animated: true)
+                
                 return
             }
             
@@ -73,7 +81,7 @@ extension MyNavigationBar {
                 let tabBarController = self.parentNavigationController.visibleViewController as! UITabBarController
                 let currentViewController = tabBarController.selectedViewController as! OnTheMapViewController
                 
-                currentViewController.refreshAction(locations!)
+                currentViewController.refreshAction()
             }
         }
     }

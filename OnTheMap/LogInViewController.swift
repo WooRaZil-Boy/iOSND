@@ -8,10 +8,11 @@
 
 import UIKit
 
-class LogInViewController: OnTheMapViewController {
+class LogInViewController: OnTheMapViewController, Spinner_Protocol {
     //MARK: - Properties
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
 }
 
 //MARK: - Actions
@@ -21,9 +22,24 @@ extension LogInViewController {
             return
         }
         
+        spinnerAimation(true)
+        
         NetworkClient.sharedInstance().getSession(email: emailString, password: passwordString) { success, errorString in
+            self.spinnerAimation(false)
+            
             guard success == true else {
                 print("logInAction_\(errorString)")
+                
+                let alertController = UIAlertController(title: "Login connection fails", message: errorString, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default)
+                alertController.addAction(okAction)
+                
+                performUIUpdatesOnMain {
+                    self.present(alertController, animated: true)
+                }
+                
+                
+                
                 return
             }
 
@@ -46,3 +62,11 @@ extension LogInViewController {
     }
 }
 
+//MARK: - UITextFieldDelegate
+extension LogInViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
+}

@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class PostingViewController: UIViewController {
+class PostingViewController: UIViewController, Spinner_Protocol {
     //MARK: - Properties
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var findButton: UIButton!
@@ -17,10 +17,10 @@ class PostingViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var mediaURLTextField: UITextField!
     @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     var latitude = 0.0
     var longitude = 0.0
-    var objectId: String?
 }
 
 //MARK: - Actions
@@ -32,8 +32,11 @@ extension PostingViewController {
     @IBAction func findAction(_ sender: UIButton) {
         mapView.isHidden = false
         
+        spinnerAimation(true)
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(searchTextField.text!) { placemarks, error in
+            self.spinnerAimation(false)
+            
             guard error == nil else {
                 let alertController = UIAlertController(title: "Error", message: "Unable to find that location", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default)
@@ -61,10 +64,23 @@ extension PostingViewController {
     @IBAction func submitAction(_ sender: UIButton) {
         let mapString = searchTextField.text!
         let mediaURL = mediaURLTextField.text!
+        
+        spinnerAimation(true)
 
         NetworkClient.sharedInstance().setStudentLocation(mapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude) { success, errorString in
+            self.spinnerAimation(false)
+            
             guard success == true else {
                 print("submitAction_\(errorString)")
+                
+                let alertController = UIAlertController(title: "Submit Error", message: errorString, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default)
+                alertController.addAction(okAction)
+                
+                performUIUpdatesOnMain {
+                    self.present(alertController, animated: true)
+                }
+                
                 return
             }
             
@@ -80,5 +96,14 @@ extension PostingViewController {
         submitButton.isHidden = !submitButton.isHidden
         searchTextField.isHidden = !searchTextField.isHidden
         mediaURLTextField.isHidden = !mediaURLTextField.isHidden
+    }
+}
+
+//MARK: - UITextFieldDelegate
+extension PostingViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
     }
 }
