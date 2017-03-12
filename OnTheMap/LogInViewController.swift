@@ -38,8 +38,6 @@ extension LogInViewController {
                     self.present(alertController, animated: true)
                 }
                 
-                
-                
                 return
             }
 

@@ -52,12 +52,12 @@ protocol Spinner_Protocol {
 
 extension Spinner_Protocol {
     func spinnerAimation(_ isTrue: Bool) {
-        if isTrue {
-            spinner.isHidden = false
-            spinner.startAnimating()
-        } else {
-            spinner.isHidden = true
-            spinner.stopAnimating()
+        performUIUpdatesOnMain {
+            if isTrue {
+                self.spinner.startAnimating()
+            } else {
+                self.spinner.stopAnimating()
+            }
         }
     }
 }
