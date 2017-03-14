@@ -31,11 +31,9 @@ extension PhotoAlbumCollectionViewCell { //TODO: - Reuse Check
                     print("configure Error")
                     return
                 }
-                
-                performUIUpdatesOnMain {
-                    photo.image = image
-                    self.spinner.stopAnimating()
-                }
+    
+                photo.image = image
+                self.spinner.stopAnimating()
             }
         }
     }

@@ -40,6 +40,11 @@ extension PhotoAlbumViewController {
     @IBAction func refreshAction(_ sender: UIBarButtonItem) {
         guard let fetchedObjects = fetchedResultsController.fetchedObjects  else {
             print("refreshAction_Error")
+            let alertController = UIAlertController(title: "Refresh Error", message: "Please, Check your network condition and try again", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(okAction)
+            present(alertController, animated: true)
+        
             return
         }
         
@@ -83,7 +88,7 @@ extension PhotoAlbumViewController {
                     return
             }
         
-            performUIUpdatesOnMain {
+            self.performUIUpdatesOnMain {
                 for photoData in photos {
                     let photo = Photos(context: self.coreDataStack.managedContext)
                     photo.annotation = self.selectedAnnotation
@@ -106,6 +111,7 @@ extension PhotoAlbumViewController {
 extension PhotoAlbumViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         coreDataStack.managedContext.delete(fetchedResultsController.object(at: indexPath))
+        coreDataStack.saveContext()
     }
 }
 

@@ -9,11 +9,8 @@
 import Foundation
 import MapKit
 
-class FlickrClient: NSObject {
-    override init () {
-        super.init()
-    }
-    
+class FlickrClient {
+    //MARK: - Properties
     var session = URLSession.shared
 }
 

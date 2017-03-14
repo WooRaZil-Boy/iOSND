@@ -8,9 +8,11 @@
 
 import UIKit
 
-func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
-    DispatchQueue.main.async {
-        updates()
+extension UIViewController {
+    func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
+        DispatchQueue.main.async {
+            updates()
+        }
     }
 }
 
